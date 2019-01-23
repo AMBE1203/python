@@ -55,3 +55,16 @@ def check_grad(w,cost, grad):
     return True if np.linalg.norm(grad1 - grad2) < 1e-6 else False
 
 print('Checking gradient...', check_grad(np.random.rand(2,1), cost, grad))
+
+def myGD(w_init, grad, eta):
+    w = [w_init]
+    for it in range(100):
+        w_new = w[-1] - eta*grad(w[-1])
+        if np.linalg.norm(grad(w_new))/ len(w_new) < 1e-3:
+            break
+        w.append(w_new)
+    return (w,it)
+
+w_init = np.array([[2],[1]])
+(w1,it1) = myGD(w_init, grad, 1)
+print('Solution found by GD: w = ', w1[-1].T, '\nafter %d iterations.' %(it1+1))
